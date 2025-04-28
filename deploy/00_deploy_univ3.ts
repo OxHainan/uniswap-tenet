@@ -35,7 +35,6 @@ import { abi as SwapRouter02_ABI, bytecode as SwapRouter02_BYTECODE } from '@uni
 import { abi as Quoter_ABI, bytecode as Quoter_BYTECODE } from '@uniswap/v3-periphery/artifacts/contracts/lens/QuoterV2.sol/QuoterV2.json'
 import { abi as TickLens_ABI, bytecode as TickLens_BYTECODE } from '@uniswap/v3-periphery/artifacts/contracts/lens/TickLens.sol/TickLens.json'
 import { abi as V3Migrator_ABI, bytecode as V3Migrator_BYTECODE } from '@uniswap/v3-periphery/artifacts/contracts/V3Migrator.sol/V3Migrator.json'
-import { ethers } from 'hardhat';
 import Permit from '../test/deployment.json'
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     const { deployments, ethers } = hre
@@ -194,16 +193,28 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         },
     })
 
-    await deployer[1].sendTransaction({
-        value: '10000000000000000',
-        to: Permit.deterministic.signerAddress
-    })
+    console.log("UnsupportedProtocol addr:", unsupportedProtocol.address);
 
-    await ethers.provider.broadcastTransaction(Permit.deterministic.transaction);
-    let res = await deployer[0].sendTransaction({
+    // await deployer[1].sendTransaction({
+    //     value: '10000000000000000',
+    //     to: Permit.deterministic.signerAddress
+    // })
+
+    // await ethers.provider.broadcastTransaction(Permit.deterministic.transaction);
+   
+    // let res = await deployer[0].sendTransaction({
+    //     to: Permit.deterministic.address,
+    //     data: Permit.permit2.data
+    // })
+
+    let signer = await deployments.getSigner(deployer[0].address)
+
+    let res = await signer.sendTransaction({
         to: Permit.deterministic.address,
         data: Permit.permit2.data
     })
+
+    let receipt = await res.wait(3) 
 
     const universalRouter = await deployments.deploy('UniversalRouter', {
         from: deployer[0].address,
@@ -213,25 +224,23 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         },
         args: [[
             '0x000000000022d473030f116ddee9f6b43ac78ba3',
-            WETH9.address,
-            unsupportedProtocol.address,
-            unsupportedProtocol.address,
-            unsupportedProtocol.address,
-            unsupportedProtocol.address,
-            unsupportedProtocol.address,
-            unsupportedProtocol.address,
-            unsupportedProtocol.address,
-            unsupportedProtocol.address,
-            unsupportedProtocol.address,
-            unsupportedProtocol.address,
-            unsupportedProtocol.address,
-            unsupportedProtocol.address,
-            unsupportedProtocol.address,
-            unsupportedProtocol.address,
-            unsupportedProtocol.address,
-            unsupportedProtocol.address,
-            factory_2.address,
-            factory.address,
+            WETH9.address, // weth9
+            unsupportedProtocol.address, // seaportV1_5
+            unsupportedProtocol.address, // seaportV1_4
+            unsupportedProtocol.address, // openseaConduit
+            unsupportedProtocol.address, // nftxZap
+            unsupportedProtocol.address, // x2y2
+            unsupportedProtocol.address, //foundation
+            unsupportedProtocol.address, // sudoswap
+            unsupportedProtocol.address, //elementMarket
+            unsupportedProtocol.address, //nft20Zap
+            unsupportedProtocol.address, //cryptopunks
+            unsupportedProtocol.address, //looksRareV2
+            unsupportedProtocol.address, // routerRewardsDistributor
+            unsupportedProtocol.address, //looksRareRewardsDistributor
+            unsupportedProtocol.address, //looksRareToken
+            factory_2.address, // v2Factory
+            factory.address, // v3Factory
             '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f',
             '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54'
         ]]

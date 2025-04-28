@@ -11,7 +11,7 @@ module.exports = {
 
   networks: {
     tenet: {
-      url: 'http://127.0.0.1:9933',
+      url: 'http://127.0.0.1:9944',
       accounts: [privateKeyDev, privateKeyDev2],
       chainId: 1337,
     },
