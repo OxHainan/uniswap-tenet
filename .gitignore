@@ -57,5 +57,3 @@ typechain-types
 cache
 artifacts
 
-yarn.lock
-yarn-error.log

@@ -200,13 +200,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     //     to: Permit.deterministic.signerAddress
     // })
 
-    // await ethers.provider.broadcastTransaction(Permit.deterministic.transaction);
-   
-    // let res = await deployer[0].sendTransaction({
-    //     to: Permit.deterministic.address,
-    //     data: Permit.permit2.data
-    // })
-
     let signer = await deployments.getSigner(deployer[0].address)
 
     let res = await signer.sendTransaction({
@@ -225,20 +218,22 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         args: [[
             '0x000000000022d473030f116ddee9f6b43ac78ba3',
             WETH9.address, // weth9
-            unsupportedProtocol.address, // seaportV1_5
-            unsupportedProtocol.address, // seaportV1_4
-            unsupportedProtocol.address, // openseaConduit
-            unsupportedProtocol.address, // nftxZap
-            unsupportedProtocol.address, // x2y2
-            unsupportedProtocol.address, //foundation
-            unsupportedProtocol.address, // sudoswap
-            unsupportedProtocol.address, //elementMarket
-            unsupportedProtocol.address, //nft20Zap
-            unsupportedProtocol.address, //cryptopunks
-            unsupportedProtocol.address, //looksRareV2
-            unsupportedProtocol.address, // routerRewardsDistributor
-            unsupportedProtocol.address, //looksRareRewardsDistributor
-            unsupportedProtocol.address, //looksRareToken
+            unsupportedProtocol.address,
+            unsupportedProtocol.address,
+            unsupportedProtocol.address,
+            unsupportedProtocol.address,
+            unsupportedProtocol.address,
+            unsupportedProtocol.address,
+            unsupportedProtocol.address,
+            unsupportedProtocol.address,
+            unsupportedProtocol.address,
+            unsupportedProtocol.address,
+            unsupportedProtocol.address,
+            unsupportedProtocol.address,
+            unsupportedProtocol.address,
+            unsupportedProtocol.address,
+            unsupportedProtocol.address,
+            unsupportedProtocol.address,
             factory_2.address, // v2Factory
             factory.address, // v3Factory
             '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f',
